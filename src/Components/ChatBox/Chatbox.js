@@ -23,7 +23,7 @@ const Chatbox = () => {
                         <i className="fa-solid fa-phone"></i>
                     </div>
                     <div className='chatbox__action--ellipsis'>
-                        <i class="fa-solid fa-ellipsis"></i>
+                        <i className="fa-solid fa-ellipsis"></i>
                     </div>
                 </div>
             </div>
@@ -31,7 +31,20 @@ const Chatbox = () => {
 
             </div>
             <div className='chatbox__input'>
-                
+                <div className='chatbox__input--action'>
+                    <div className='chatbox__input--files'> 
+                        <i className="fa-solid fa-paperclip"></i>
+                    </div>
+                    <div className='chatbox__input--emoji'>
+                        <i className="fa-regular fa-face-smile"></i>
+                    </div>
+                </div>
+                <div className='chatbox__input--messages'>
+                    <input type={"text"} placeholder="Write a message..." className="chatbox__input--messages"/>
+                </div>
+                <div className='chatbox__input--sendBtn'>
+                    <i className="fa-solid fa-paper-plane"></i>
+                </div>
             </div>
         </div>
     )

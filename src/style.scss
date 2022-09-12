@@ -11,10 +11,10 @@
 .App {
     display: flex;
     flex-direction: row;
-    margin: 50px;
-    width: 1450px;
+    margin: 50px auto;
+    width: 90%;
+    height: 800px;
     border-radius: 30px;
-    height: 600px;
     background-color: $background;
     box-shadow: 20px 20px 35px #d0d0d0, -20px -20px 35px $background;
 }

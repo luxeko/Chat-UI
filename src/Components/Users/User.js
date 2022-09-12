@@ -105,6 +105,36 @@ const User = ({ userOnline, userMessages }) => {
                         <span>10:24 AM</span>
                     </div>
                 </div>
+                <div className='user__messages--box'>
+                    <div>
+                        <div className='user__online--icon'>
+                            <img src={require('../../Assets/Image/User/face1.jpg')}  alt="user"/>
+                            <span className='user__online--status'></span>
+                        </div>
+                        <div className='user__messages--name'>
+                            <p>Đức Anh</p>
+                            <p>Hello world</p>
+                        </div>
+                    </div>
+                    <div className='user__messages--time'>
+                        <span>10:24 AM</span>
+                    </div>
+                </div>
+                <div className='user__messages--box'>
+                    <div>
+                        <div className='user__online--icon'>
+                            <img src={require('../../Assets/Image/User/face1.jpg')}  alt="user"/>
+                            <span className='user__online--status'></span>
+                        </div>
+                        <div className='user__messages--name'>
+                            <p>Đức Anh</p>
+                            <p>Hello world</p>
+                        </div>
+                    </div>
+                    <div className='user__messages--time'>
+                        <span>10:24 AM</span>
+                    </div>
+                </div>
             </div>
             
         </div>
