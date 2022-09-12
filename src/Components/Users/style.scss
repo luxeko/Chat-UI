@@ -15,7 +15,7 @@
         width: 100%;
         display: flex;
         background-color: $background;
-        margin-bottom: 20px;
+        margin-bottom: 30px;
         h2 {
             font-size: 40px;
             background-color: $background;
@@ -33,7 +33,7 @@
         width: 100%;
         display: flex; 
         align-items: center;
-        margin-bottom: 20px;
+        margin-bottom: 30px;
       
         i {
             font-size: 24px;
@@ -67,15 +67,10 @@
     &__online {
         width: 100%;
         display: flex;
-        margin-bottom: 20px;
+        margin-bottom: 30px;
         background-color: $background;
         flex-direction: row;
         
-        .slick-slider {
-            .slick-list {
-                background-color: $background !important; 
-            }
-        }
         &--icon {
             background-color: $background;
             position:relative;
@@ -116,6 +111,7 @@
 
         &::-webkit-scrollbar{
             width: 5px;
+            cursor: pointer;
         }
         
         &::-webkit-scrollbar-track{
@@ -125,6 +121,7 @@
         &::-webkit-scrollbar-thumb{
             background: $blue;
             border-radius: 10px;
+          
         }
         &--box {
             background-color: $background;

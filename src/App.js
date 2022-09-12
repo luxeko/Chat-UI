@@ -8,12 +8,7 @@ function App() {
   return (
     <div className="App">
         <Navbar>
-            <div className='navbar__action--icon active'><i className="fa-solid fa-comment-dots"></i></div>
-            <div className='navbar__action--icon'><i className="fa-solid fa-users"></i></div>
-            <div className='navbar__action--icon'><i className="fa-solid fa-video"></i></div>
-            <div className='navbar__action--icon'><i className="fa-solid fa-phone"></i></div>
-            <div className='navbar__action--icon'><i className="fa-regular fa-calendar"></i></div>
-            <div className='navbar__action--icon'><i className="fa-solid fa-gear"></i></div>
+            
         </Navbar>
         <User></User>
         <Chatbox></Chatbox>
