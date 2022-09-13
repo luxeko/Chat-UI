@@ -1,11 +1,22 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import './style.scss'
 import lottie from "lottie-web";
+import PropTypes from 'prop-types';
 
-export default function Login({ onEmailSubmit }) {
+async function loginUser(credentials) {
+    return fetch('http://localhost:8080/login', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(credentials)
+    })
+        .then(data => data.json())
+}
+export default function Login({ setToken }) {
+    const [username, setUserName] = useState();
+    const [password, setPassword] = useState();
     const animationContainer = React.createRef();
-    const nameRef = useRef();
-    const passwordRef = useRef();
    
     useEffect(() => {
         const anim = lottie.loadAnimation({
@@ -17,10 +28,13 @@ export default function Login({ onEmailSubmit }) {
         })
         anim.setSpeed(2.5);
     })
-    function handleSubmit(e) {
+    const handleSubmit = async e => {
         e.preventDefault();
-        onEmailSubmit(nameRef.current.value)
-        console.log(passwordRef.current.value);
+        const token = await loginUser({
+        username,
+        password
+        });
+        setToken(token);
     }
     return (
         <>
@@ -37,8 +51,8 @@ export default function Login({ onEmailSubmit }) {
                         <div className='login__title'><h1>Login</h1></div>
                         <form onSubmit={handleSubmit} className='login__box'>
                             
-                            <input ref={nameRef} type={'text'} className='login__input' placeholder='Name'/>
-                            <input ref={passwordRef} type={'password'} className='login__input' placeholder='Password'/>
+                            <input onChange={e => setUserName(e.target.value)} type={'text'} className='login__input' placeholder='Name'/>
+                            <input onChange={e => setPassword(e.target.value)} type={'password'} className='login__input' placeholder='Password'/>
                             <button className='login_btn'>Login</button>
                             <button className='register_btn'>Create a New Account</button>
                         </form>
@@ -48,3 +62,6 @@ export default function Login({ onEmailSubmit }) {
         </>
     )
 }
+Login.propTypes = {
+    setToken: PropTypes.func.isRequired
+  }

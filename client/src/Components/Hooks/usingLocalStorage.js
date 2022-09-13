@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import { useEffect, useState } from 'react'
 
 const PREFIX = 'USER_'
@@ -16,4 +17,6 @@ export default function usingLocalStorage(key, initialValue) {
     useEffect(() => {
         localStorage.setItem(prefixedKey, JSON.stringify(value))
     }, [prefixedKey, value])
+
+    return [value, setValue]
 }

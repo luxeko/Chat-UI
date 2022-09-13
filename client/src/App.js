@@ -1,22 +1,28 @@
 import './style.scss'
-import Navbar from './Components/Navbar/Navbar.js';
-import User from './Components/Users/User.js';
-import Chatbox from './Components/ChatBox/Chatbox.js';
-import Chatboxsetting from './Components/ChatBoxSetting/ChatBoxSetting.js';
 import Login from './Components/Login/Login.js';
+import Dashboard from './Components/Dashboard/Dashboard.js';
 import React, { useState } from 'react';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import useToken from './Components/App/useToken.js';
+
 function App() {
-    const [email, setEmail] = useState();
-    
+    const { token, setToken } = useToken();
+    if(!token) {
+        return (
+            <div className='App'>
+                <Login setToken={setToken} />
+            </div>
+        )
+    }
     return (
         <div className="App">
-            <Login onEmailSubmit={setEmail}></Login>
-            {/* <Navbar>
-                
-            </Navbar>
-            <User></User>
-            <Chatbox></Chatbox> */}
-            {/* <Chatboxsetting></Chatboxsetting> */}
+            <BrowserRouter>
+                <Routes>
+                    <Route path="/" element={<Dashboard />}>
+                        
+                    </Route>
+                </Routes>
+            </BrowserRouter>
         </div>
     );
 }
