@@ -2,7 +2,8 @@ import React from 'react';
 import './style.scss';
 
 
-const Chatbox = () => {
+const Chatbox = (props) => {
+
     return (
         <div className='chatbox'>
             <div className='chatbox__header'>
