@@ -2,7 +2,23 @@ import React from 'react';
 import './style.scss';
 
 const Users = (dataUsers) => {
-    console.log();
+    const User = (props) => {
+        return <div key={props.id} className='user__messages--box'>
+                    <div>
+                        <div className='user__online--icon'>
+                            <img src={props.imageSrc}  alt={props.name}/>
+                            <span className='user__online--status'></span>
+                        </div>
+                        <div className='user__messages--name'>
+                            <p>{props.name}</p>
+                            <p>Hello world</p>
+                        </div>
+                    </div>
+                    <div className='user__messages--time'>
+                        <span>10:24 AM</span>
+                    </div>
+                </div>
+    }
     return (
         <div className='user'>
             <div className='user__title--2'>
@@ -38,23 +54,8 @@ const Users = (dataUsers) => {
             </div>
             <div className='user__messages'>
                 {dataUsers.users && dataUsers.users.length > 0 && dataUsers.users.map((user, index) => {
-                    return  <div key={user.id} className='user__messages--box'>
-                                <div>
-                                    <div className='user__online--icon'>
-                                        <img src={require('../../Assets/Image/User/face1.jpg')}  alt="user"/>
-                                        <span className='user__online--status'></span>
-                                    </div>
-                                    <div className='user__messages--name'>
-                                        <p>{user.name}</p>
-                                        <p>Hello world</p>
-                                    </div>
-                                </div>
-                                <div className='user__messages--time'>
-                                    <span>10:24 AM</span>
-                                </div>
-                            </div>
-                })
-                }
+                    return <User key={user.id} imageSrc={user.imageSrc} name={user.name}></User>
+                })}
             </div>
             
         </div>

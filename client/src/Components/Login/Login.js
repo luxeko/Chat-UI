@@ -1,6 +1,7 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useState } from 'react'
 import './style.scss'
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 
 async function loginUser(credentials) {
     return fetch('http://localhost:8080/login', {
@@ -27,7 +28,6 @@ export default function Login({ setToken }) {
    
     return (
         <>
-            {/*  */}
             <div className='login'>
                 <div className='login__wrapper'>
                     <div className='login__left'>
@@ -39,11 +39,10 @@ export default function Login({ setToken }) {
                     <div className='login__right'>
                         <div className='login__title'><h1>Login</h1></div>
                         <form onSubmit={handleSubmit} className='login__box'>
-                            
                             <input onChange={e => setUserName(e.target.value)} type={'text'} className='login__input' placeholder='Name'/>
                             <input onChange={e => setPassword(e.target.value)} type={'password'} className='login__input' placeholder='Password'/>
-                            <button className='login_btn'>Login</button>
-                            <button className='register_btn'>Create a New Account</button>
+                            <button className='login_btn'>Login</button>                    
+                            <Link style={{textDecoration: "none"}} to={`/Register`} className={'register_btn'}>Create a New Acount</Link>
                         </form>
                     </div>
                 </div>

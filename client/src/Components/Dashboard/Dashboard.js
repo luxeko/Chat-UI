@@ -31,4 +31,9 @@ function Dashboard(props) {
 const mapStateToProps = (state) => ({
     dataRedux: state
 })
-export default connect(mapStateToProps)(Dashboard)
+const mapDispatchToProps = (dispatch) => ({
+    create: (userCreate) => dispatch({type: "CREATE_USER", payload: "userCreate"}),
+    update: (userUpdate) => dispatch({type: "UPDATE_USER", payload: "userUpdate"}),
+    delete: (userDelete) => dispatch({type: "DELETE_USER", payload: "userDelete"}),
+})
+export default connect(mapStateToProps, mapDispatchToProps)(Dashboard)

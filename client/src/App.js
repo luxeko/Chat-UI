@@ -4,6 +4,7 @@ import Dashboard from './Components/Dashboard/Dashboard.js';
 import React from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import useToken from './Components/App/useToken.js';
+import Register from './Components/Register/Register.js'
 
 export default function App() {
     const { token, setToken } = useToken();
@@ -16,9 +17,11 @@ export default function App() {
     }
     return (
         <div className="App">
-            <BrowserRouter>
+             <BrowserRouter>
                 <Routes>
-                    <Route path="/" element={<Dashboard/>}></Route>
+                    <Route path="/Dashboard" element={<Dashboard/>}></Route>
+                    <Route path="/" element={<Login/>}></Route>
+                    <Route path="/Register" element={<Register/>}></Route>
                 </Routes>
             </BrowserRouter>
         </div>
