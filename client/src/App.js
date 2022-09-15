@@ -1,11 +1,11 @@
 import './style.scss'
 import Login from './Components/Login/Login.js';
 import Dashboard from './Components/Dashboard/Dashboard.js';
-import React, { useState } from 'react';
+import React from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import useToken from './Components/App/useToken.js';
 
-function App() {
+export default function App() {
     const { token, setToken } = useToken();
     if(!token) {
         return (
@@ -18,11 +18,9 @@ function App() {
         <div className="App">
             <BrowserRouter>
                 <Routes>
-                    <Route path="/Message" element={<Dashboard/>}></Route>
+                    <Route path="/" element={<Dashboard/>}></Route>
                 </Routes>
             </BrowserRouter>
         </div>
     );
 }
-
-export default App;

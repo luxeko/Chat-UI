@@ -3,7 +3,6 @@ import './style.scss';
 
 
 const Chatbox = (props) => {
-
     return (
         <div className='chatbox'>
             <div className='chatbox__header'>

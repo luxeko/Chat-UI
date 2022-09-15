@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
 import './style.scss'
-import lottie from "lottie-web";
 import PropTypes from 'prop-types';
 
 async function loginUser(credentials) {
@@ -16,18 +15,7 @@ async function loginUser(credentials) {
 export default function Login({ setToken }) {
     const [username, setUserName] = useState();
     const [password, setPassword] = useState();
-    const animationContainer = React.createRef();
-   
-    useEffect(() => {
-        const anim = lottie.loadAnimation({
-            container: animationContainer.current,
-            renderer: 'svg',
-            loop: true,
-            autoplay: true,
-            path: 'https://s3-us-west-2.amazonaws.com/s.cdpn.io/35984/LEGO_loader.json'
-        })
-        anim.setSpeed(2.5);
-    })
+    
     const handleSubmit = async e => {
         e.preventDefault();
         const token = await loginUser({
@@ -36,9 +24,10 @@ export default function Login({ setToken }) {
         });
         setToken(token);
     }
+   
     return (
         <>
-            {/* <div ref={animationContainer}></div> */}
+            {/*  */}
             <div className='login'>
                 <div className='login__wrapper'>
                     <div className='login__left'>

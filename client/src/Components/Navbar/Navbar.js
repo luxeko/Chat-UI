@@ -12,12 +12,15 @@ const tabs = [
     {id:5, title: 'Setting', class:'fa-solid fa-gear'}
 
 ]
-
 const Navbar = () => {
     const [isActive, setIsActive] = useState(0);
 
     const handleClick = (index) => {
         setIsActive(index);
+    }
+    const handleLogOut = (e) => {
+        localStorage.clear();
+        window.location.href = '/';
     }
     return (
         <div className='navbar'>
@@ -32,7 +35,7 @@ const Navbar = () => {
             </div>
 
             <div className='navbar__logout'>
-                <i className="fa-solid fa-right-from-bracket"></i>
+                <i onClick={(e) => handleLogOut(e)} className="fa-solid fa-right-from-bracket"></i>
             </div>
         </div>
     )
