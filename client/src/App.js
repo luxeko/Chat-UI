@@ -1,27 +1,25 @@
-import './style.scss'
-import Login from './Components/Login/Login.js';
-import Dashboard from './Components/Dashboard/Dashboard.js';
 import React from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import useToken from './Components/App/useToken.js';
-import Register from './Components/Register/Register.js'
-
+import './style.scss'
+import Message from './Components/Message/Message.js';
+import Room from './Components/Message/Room.js';
+import Calendar from './Components/Calendar/Calendar.js'
+import Video from './Components/Video/Video.js'
+import Phone from './Components/Phone/Phone.js'
+import UserSetting from './Components/UserSetting/UserSetting.js'
 export default function App() {
-    const { token, setToken } = useToken();
-    if(!token) {
-        return (
-            <div className='App'>
-                <Login setToken={setToken} />
-            </div>
-        )
-    }
+    // const { token, setToken } = useToken(false);
+    const auth_login = true;
     return (
         <div className="App">
-             <BrowserRouter>
+            <BrowserRouter>
                 <Routes>
-                    <Route path="/Dashboard" element={<Dashboard/>}></Route>
-                    <Route path="/" element={<Login/>}></Route>
-                    <Route path="/Register" element={<Register/>}></Route>
+                    <Route path="/" element={<Message login={auth_login}/>}></Route>
+                    <Route path="/Room" element={<Room login={auth_login}/>}></Route>
+                    <Route path="/UserSetting" element={<UserSetting login={auth_login}/>}></Route>
+                    <Route path="/Video" element={<Video login={auth_login}/>}></Route>
+                    <Route path="/Calendar" element={<Calendar login={auth_login}/>}></Route>
+                    <Route path="/Phone" element={<Phone login={auth_login}/>}></Route>
                 </Routes>
             </BrowserRouter>
         </div>

@@ -1,16 +1,105 @@
 @import '../../Assets/css/color.scss';
-
-.user {
+.form__modal {
+    width: 500px;
+    height: 200px;
     display: flex;
     align-items: center;
     flex-direction: column;
-    width: 350px;
-    height: 100%;
-    border-right: 2px solid $input_bg_color;
-    padding: 0px 20px;
-    background: $background;
-    padding: 30px 20px;
+    justify-content: center;
+    padding: 20px 30px;
+    background-color: rgba(255, 255, 255, .15);   
+    backdrop-filter: blur(5px);
 
+    input {
+        width: 100%;
+        border: $border_color;
+        color: $input_color;
+        background: $input_bg_color;
+        padding: 20px 20px;
+        margin-bottom: 20px;
+        font-size: 18px;
+        outline: none;
+        &:focus {
+            color: #000;
+        }
+
+    }
+    button {
+        background-color: $blue;
+        outline: none;
+        border-radius: 10px;
+        border: none;
+        width: 50%;
+        font-size: 18px;
+        color: $background;
+        cursor: pointer;
+        padding: 10px 10px;
+    }
+}
+.close__modal {
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    background-color: $background;
+    cursor: pointer;
+    top: 3%;
+    left: auto;
+    right: 1%;
+    bottom: auto;
+    i {
+        background-color: $background;
+    }
+}
+.Overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #666 ;
+    opacity: 0.9;
+  }
+.user {
+    width: 100%;
+    height: 100%;
+    background: $background;
+    display: flex;
+    border-top-right-radius: 30px;
+    border-bottom-right-radius: 30px;
+       
+    .list__chat {
+        width: 450px;
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        border-right: 2px solid $input_bg_color;
+        padding: 0px 20px;
+        background: $background;
+        padding: 30px 20px;
+
+        .create__message {
+            width: 100%;
+            background-color: $blue;
+            color: $background;
+            text-align: center;
+            border-radius: 10px;
+            align-items: center;
+            display: flex;
+            justify-content: center;
+            padding: 15px 0px;
+            cursor: pointer;
+
+            &:hover {
+                background-color: #61c2fb;
+            }
+        }
+    }
+    .converstation {
+        border-top-right-radius: 30px;
+        border-bottom-right-radius: 30px;
+        width: 100%;
+        height: 100%;
+    }
     &__title--2, &__title--3 {
         width: 100%;
         display: flex;
@@ -128,7 +217,31 @@
             display: flex;
             margin-bottom: 20px;
             justify-content: space-between;
-
+            padding: 5px 10px;
+            border-radius: 17px;
+            cursor: pointer;
+            &:hover {
+                transition: 300ms;
+                background-color: $blue;
+                div:first-child {
+                    transition: 300ms;
+                    background-color: $blue;
+                    div p{
+                        transition: 300ms;
+                        background-color: $blue;
+                        color: $background;
+                    }
+                } 
+                div:last-child{
+                    transition: 300ms;
+                    background-color: $blue;
+                    span{
+                        transition: 300ms;
+                        background-color: $blue;
+                        color: $background;
+                    }
+                }
+            }
             & > div:first-child {
                 background-color: $background;
                 display: flex;
@@ -137,6 +250,7 @@
             .user__messages--name {
                 background-color: $background;
                 p{
+                    font-family: Arial, Helvetica, sans-serif;
                     background-color: $background;
                     &:first-child {
                         font-weight: 700;

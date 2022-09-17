@@ -1,55 +1,53 @@
 import React, { useState } from 'react'
 import './style.scss'
-import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
 
-async function loginUser(credentials) {
-    return fetch('http://localhost:8080/login', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(credentials)
-    })
-        .then(data => data.json())
+const initialState = {
+    fullName: '',
+    userName: '',
+    id: ''
 }
-export default function Login({ setToken }) {
-    const [username, setUserName] = useState();
-    const [password, setPassword] = useState();
-    
+export default function Login() {
+    const [isSignUp, setIsSignUp] = useState(false);
+    const [form, setForm] = useState(initialState);
     const handleSubmit = async e => {
         e.preventDefault();
-        const token = await loginUser({
-        username,
-        password
-        });
-        setToken(token);
     }
-   
+    const handleChange = (e) => {
+        setForm({
+            ...form, [e.target.name]: e.target.value
+        })
+    }
+    const swichtMode = () => {
+        setIsSignUp(!isSignUp)
+    }
     return (
         <>
             <div className='login'>
                 <div className='login__wrapper'>
-                    <div className='login__left'>
-                        <h3 className='login__logo'>React JS</h3>
-                        <span className='login__desc'>
-                            Connect with frineds and the world around you on ReactJs
-                        </span>
-                    </div>
                     <div className='login__right'>
-                        <div className='login__title'><h1>Login</h1></div>
+                        <div className='login__title'><h1>{isSignUp ? "Sign Up": "Sign In"}</h1></div>
                         <form onSubmit={handleSubmit} className='login__box'>
-                            <input onChange={e => setUserName(e.target.value)} type={'text'} className='login__input' placeholder='Name'/>
-                            <input onChange={e => setPassword(e.target.value)} type={'password'} className='login__input' placeholder='Password'/>
-                            <button className='login_btn'>Login</button>                    
-                            <Link style={{textDecoration: "none"}} to={`/Register`} className={'register_btn'}>Create a New Acount</Link>
+                            <input onChange={handleChange} type={'text'} className='login__input' placeholder='User Name' name='userName' required/>
+                            {isSignUp && (
+                            <>
+                                <input onChange={handleChange} type={'text'} className='login__input' placeholder='Full Name' name='fullName' required/>
+
+                            </>
+                            )}
+                            <button className='login__btn'>{isSignUp ? 'Sign Up' : 'Sign In'}</button>
                         </form>
+                        <p>
+                            {isSignUp  
+                                ? "Already have an Account? " 
+                                : "Don't have an Account? "
+                            }
+                            <span onClick={swichtMode}>
+                                {isSignUp ? " Sign In" : " Sign Up"}
+                            </span>
+                        </p>
                     </div>
                 </div>
             </div>
         </>
     )
 }
-Login.propTypes = {
-    setToken: PropTypes.func.isRequired
-  }
