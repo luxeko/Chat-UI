@@ -1,50 +1,46 @@
 import React, { useRef, useEffect, useState } from "react";
 import "./style.scss";
-import io from 'socket.io-client'
-
-const socket = io.connect("http://localhost:5000")
-
-const Conversation = () => {
-    const [room, setRoom] = useState("");
-    const [message, setMessage] = useState("");
-    const [messageReceived, setMessageReceived] = useState("");
-    const typingRef = useRef();
+const Conversation = ({userName, socket, room}) => {
+    // const typingRef = useRef();
     const inputMessage = useRef();
-  
-    function handleTypeMessage(e) {
-        if (e.target.value !== "") {
-            typingRef.current.innerText = "Typing...";
-        } else {
-            typingRef.current.innerText = "";
+    
+    const [currentMessage, setCurrentMessage] = useState("")
+    const [messageList, setMessageList] = useState([])
+    const lastMessageRef = useRef();
+    const sendMessage = async () => {
+       
+        if(currentMessage !== "") {
+            const messageData = {
+                room: room,
+                author: userName,
+                message: currentMessage,
+                time: new Date(Date.now()).toLocaleTimeString()
+            }
+            await socket.emit("send_message", messageData)
+            setMessageList((list) => [...list, messageData])
+
         }
-        setMessage(e.target.value);
-    }
-    const joinRoom = () => {
-        if(room !== "") {
-            socket.emit("join_room", room)
-        }
-    }
-    const sendMessage = () => {
-        socket.emit("send_message", { room, message })
         inputMessage.current.value = ""
     }
     useEffect(() => {
         socket.on("receive_message", (data) => {
-            setMessageReceived(data.message)
+            setMessageList((list) => [...list, data])
         })
     }, [socket])
+    useEffect(() => {
+        if(lastMessageRef.current) {
+            lastMessageRef.current.scrollIntoView({smooth: true})
+        }
+    })
     return (
         <div className="chatbox">
             <div className="chatbox__header">
                 <div className="chatbox__header--user">
-                    <div className="chatbox__user--icon">
-                        <img src={""} alt="user" />
-                    </div>
                     <div className="chatbox__user--name">
-                        <p>{""}</p>
+                        <p></p>
                         <p>
                             <code>ID: </code>
-                            <code>{""}</code>
+                            <code>{}</code>
                         </p>
                         
                     </div>
@@ -63,10 +59,27 @@ const Conversation = () => {
             </div>
             <div className="chatbox__layout">
                 <div className="chatbox__content">
-                    <p>{messageReceived}</p>
+                    {messageList.map((messageContent, index) => {
+                        const lastMessage = messageList.length - 1 === index
+                        return (
+                            <div ref={lastMessage ? lastMessageRef : null}          
+                                className="message" 
+                                id={userName === messageContent.author ? "you" : "other"}>
+                                <div>
+                                    <div className="message__content" >
+                                        <p>{messageContent.message}</p>    
+                                    </div>    
+                                    <div className="message__meta" >
+                                        <code>{messageContent.time}</code>    
+                                        <code>{userName === messageContent.author ? "you" : "other"}</code>    
+                                    </div>    
+                                </div>
+                            </div>
+                        )
+                    })}
                     
-                    <p ref={typingRef}></p>
                 </div>
+                    {/* <p className="typing" ref={typingRef}></p> */}
                 <div className="chatbox__input">
                     <div className="chatbox__input--action">
                         <div className="chatbox__input--files">
@@ -77,7 +90,12 @@ const Conversation = () => {
                         </div>
                     </div>
                     <div className="chatbox__input--messages">
-                        <input ref={inputMessage} onChange={(e) => handleTypeMessage(e)} type={"text"} placeholder="Write a message..." className="chatbox__input--messages" />
+                        <input 
+                            ref={inputMessage} 
+                            onChange={(e) => setCurrentMessage(e.target.value)} 
+                            type={"text"} 
+                            placeholder="Write a message..." className="chatbox__input--messages"
+                            onKeyPress={(e) => {e.key === "Enter" && sendMessage()}} />
                     </div>
                     <div onClick={sendMessage} className="chatbox__input--sendBtn">
                         <i className="fa-solid fa-paper-plane"></i>

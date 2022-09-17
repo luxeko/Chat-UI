@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { useEffect, useState } from 'react'
 
-const PREFIX = 'USER_'
+const PREFIX = 'STORAGE_'
 
 export default function usingLocalStorage(key, initialValue) {
     const prefixedKey = PREFIX + key

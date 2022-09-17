@@ -24,8 +24,19 @@
         }
 
     }
-    button {
+    .btn__modal--create {
         background-color: $blue;
+        outline: none;
+        border-radius: 10px;
+        border: none;
+        width: 50%;
+        font-size: 18px;
+        color: $background;
+        cursor: pointer;
+        padding: 10px 10px;
+    }
+    .btn__modal--join {
+        background-color: $online_color;
         outline: none;
         border-radius: 10px;
         border: none;
@@ -77,21 +88,47 @@
         background: $background;
         padding: 30px 20px;
 
-        .create__message {
-            width: 100%;
-            background-color: $blue;
-            color: $background;
-            text-align: center;
-            border-radius: 10px;
-            align-items: center;
+        .room__actions {
             display: flex;
-            justify-content: center;
-            padding: 15px 0px;
-            cursor: pointer;
+            width: 100%;
+            align-items: center;
+            justify-content: space-between;
 
-            &:hover {
-                background-color: #61c2fb;
+            .join__room {
+                width: 48%;
+                background-color: $online_color;
+                color: $background;
+                text-align: center;
+                border-radius: 10px;
+                align-items: center;
+                display: flex;
+                justify-content: center;
+                padding: 15px 0px;
+                transition: 300ms;
+                cursor: pointer;
+                
+                &:hover {
+                    background-color: #23cd48;
+                }
             }
+            .create__room {
+                width: 48%;
+                background-color: $blue;
+                color: $background;
+                text-align: center;
+                border-radius: 10px;
+                align-items: center;
+                transition: 300ms;
+                display: flex;
+                justify-content: center;
+                padding: 15px 0px;
+                cursor: pointer;
+    
+                &:hover {
+                    background-color: #61c2fb;
+                }
+            }
+
         }
     }
     .converstation {
