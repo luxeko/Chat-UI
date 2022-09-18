@@ -1,23 +1,24 @@
-import React from 'react';
+import React, {useState} from 'react';
 import logo from '../../Assets/Image/logo.svg';
 import './style.scss';
 import { NavLink } from 'react-router-dom';
 
 const tabs = [
-    {id:0, title: 'Room', class:'fa-solid fa-comment-dots'},
+    {id:1, title: 'Room', class:'fa-solid fa-comment-dots'},
     {id:2, title: 'Video', class:'fa-solid fa-video'},
     {id:3, title: 'Phone', class:'fa-solid fa-phone'},
     {id:4, title: 'Calendar', class:'fa-regular fa-calendar'},
     {id:5, title: 'UserSetting', class:'fa-solid fa-gear'}
 ]
 const Navbar = () => {
-   
+    const [active, setActive] = useState()
     const handleLogOut = () => {
-        localStorage.removeItem("login");
-        localStorage.removeItem("user_login");
         window.location.href = '/';
     }
-   
+    function onCheckActive(e) {
+        console.log(e);
+        setActive(e)
+    }
     return (
         <div className='navbar'>
             <div className='navbar__logo'>
@@ -27,10 +28,11 @@ const Navbar = () => {
             <div className='navbar__action'>
                 {tabs.map((tab, index) => (
                     <NavLink 
+                        onClick={()=>onCheckActive(tab.id)}
                         key={index}     
                         style={{textDecoration: "none"}}  
                         to={`/${tab.title}`} 
-                        className={`icon navbar__action--icon`}
+                        className={`icon navbar__action--icon ${tab.id === active? "active" :"" }`}
                     >
                         <i className={tab.class}></i>
                     </NavLink>

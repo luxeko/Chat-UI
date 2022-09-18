@@ -7,35 +7,31 @@ import Login from '../Login/Login';
 import Modal from 'react-modal';
 import {v4 as uuidV4 } from 'uuid'
 import {connect} from 'react-redux'
-import toast from '../Toast/toast.js';
 import Moment from 'moment';
 
 const socket = io.connect("http://localhost:5000");
 
-const checkLogin = JSON.parse(localStorage.getItem("login"));
 
 const ListContact = ({ login, ...props }) => {
-    const data = JSON.parse(localStorage.getItem("data"));
-    const authLogin = JSON.parse(localStorage.getItem("user_login"));
-    const getUserLogin = JSON.parse(localStorage.getItem(authLogin));
     const createChat = useRef()
-    const joinChat = useRef()
     const [loading, setLoading] = useState(false);
-    const [userChat, setUserChat] = useState({});
+    const [roomChat, setRoomChat] = useState({});
     const [conversation, setConversation] = useState(false)
     const [modalIsOpen, setIsOpen] = React.useState(false);
     const [action, setAction] = useState("");
     const [userName, setUserName]  = useState("");
-    const [room, setRoom] = useState("");
-   
+    const [roomID, setRoomID] = useState("");
+    const data = props.dataRedux
+
+
     const join__room = () => {
-        if(getUserLogin) {
-            setUserName(getUserLogin.userName)
+        setUserName(data.users)
+        if(userName[0] !== "" && roomID !== "") {
+            socket.emit("join_room", roomID)
         }
-        if(userName !== "" && room !== "") {
-            socket.emit("join_room", room)
-            setIsOpen(false);
-        }
+        setConversation(true);
+        // setRoomChat(init)
+        setIsOpen(false);
     }
     useEffect(() => {
         setLoading(true);
@@ -45,14 +41,13 @@ const ListContact = ({ login, ...props }) => {
     }, [])
 
     const handleShowMessage = (props) => {
-        setConversation(true);
-        setUserChat(props);
+        if(props.createrName !== "" && props.id !== "") {
+            socket.emit("join_room", props.id)
+            setConversation(true);
+            setRoomChat(props)
+        }
     }
     
-    const onSearch = (e) => {
-    }
-
-  
     const customStyles = {
         content: {
             top: '50%',
@@ -76,43 +71,29 @@ const ListContact = ({ login, ...props }) => {
     }
     function handleCreate() {
         const date = Moment().format("DD/MM/yyyy")
-        // console.log(createChat.current.value);
         props.create({
             id: uuidV4(),
-            createrId: '12345-67890',
+            createrName: data.users,
             name: createChat.current.value,
             createdDate: date,
-            userId : [],
         });
         setIsOpen(false);
     }
-   
-    // function handleJoin() {
-    //     if(data) {
-    //         const findRoom = data.rooms.filter(room => (
-    //             room.id === joinChat.current.value
-    //         ))
-    //         if(findRoom.length < 1) {
-    //             toast({
-    //                 title: "Fail",
-    //                 message: "Can't find the ID room, please try again",
-    //                 type: "error",
-    //                 duration: 3000
-    //             })
-    //         } else {
-    //             toast({
-    //                 title: "Success",
-    //                 message: "Join the room Success",
-    //                 type: "success",
-    //                 duration: 3000
-    //             })
-    //             props.update({
-    //                 ...findRoom, userJoinId: [...findRoom.userJoinId, currentUser]
-    //             })
-    //         }
-    //     }
-    //     setIsOpen(false);
-    // }
+    const ListRoom = (props) => {
+        return  <div 
+                    className='user__messages--box' 
+                    onClick={() => handleShowMessage(props)}>
+                    <div>
+                        <div className='user__messages--name'>
+                            <p># {props.name}</p>
+                            <p>Created by: {props.createrName}</p>
+                        </div>
+                    </div>
+                    <div className='user__messages--time'>
+                        <span>{props.createdDate}</span>
+                    </div>
+                </div>
+    }
     return (
         <>
             <Modal
@@ -124,12 +105,12 @@ const ListContact = ({ login, ...props }) => {
                 <div className='form__modal'>
                     {action === 'create' 
                     ?   <>
-                        <input onChange={(event) => setRoom(event.target.value)} placeholder='Name of Room' />
+                        <input onChange={(event) => setRoomID(event.target.value)} placeholder='Name of Room' />
                         <button className='btn__modal--create' onClick={handleCreate}>Create</button>
                         </>
                     : 
                         <>
-                        <input onChange={(event) => setRoom(event.target.value)} placeholder='ID Room' />
+                        <input onChange={(event) => setRoomID(event.target.value)} placeholder='ID Room' />
                         <button className='btn__modal--join' onClick={join__room}>Join</button>
                         </>
                     }
@@ -144,10 +125,10 @@ const ListContact = ({ login, ...props }) => {
             
                 <div className="list__chat">
                     <div className='user__title--2'>
-                        <h2>{checkLogin ? userName : ""}</h2>   
+                        <h2>{data.users}</h2>   
                     </div>
                     <div className='user__seaarch'>
-                        <i onChange={onSearch} className="fa-solid fa-magnifying-glass"></i>
+                        <i className="fa-solid fa-magnifying-glass"></i>
                         <input 
                             placeholder={'Search......'} />
                     </div>
@@ -155,20 +136,16 @@ const ListContact = ({ login, ...props }) => {
                         <h3>{'Rooms'}</h3>
                     </div>
                     <div className='user__messages'>
-                        {/* {data && data.rooms.length > 0 && data.rooms.map((room, index) => {
-                            return <Contact key={index} id={room.id} name={room.name} userId={room.userId} createdDate={room.createdDate}></Contact>
-                        })} */}
-                        <div className='user__messages--box' onClick={() => handleShowMessage(props)}>
-                            <div>
-                                <div className='user__messages--name'>
-                                    <p># {room}</p>
-                                    <p>{userName}</p>
-                                </div>
-                            </div>
-                            <div className='user__messages--time'>
-                                <span>{}</span>
-                            </div>
-                        </div>
+                        {data && data.rooms.length > 0 && data.rooms.map((room, index) => (
+                          <ListRoom 
+                            key={index} 
+                            id={room.id} 
+                            name={room.name} 
+                            createrName={room.createrName} 
+                            createdDate={room.createdDate}>
+                          </ListRoom>
+                        ))}
+                       
                     </div>
                     <div className='room__actions'>
                         <div onClick={openModalJoin} className='join__room' >
@@ -181,21 +158,18 @@ const ListContact = ({ login, ...props }) => {
                 </div>
             
                 <div className='converstation'>
-                    {
-                        checkLogin && checkLogin===true 
-                        ?<>{loading 
-                            ? <Loader/> 
-                                :   <>
-                                    <Conversation userName={userName} socket={socket} room={room}/>
-                                    {/* {conversation ? <Conversation userName={userName} socket={socket} room={room}/> : ""} */}
-                                    </>}
+                    { data.users.length > 0 
+                        ?
+                        <>
+                            {loading ? <Loader/> :
+                            <>
+                                { conversation ? <Conversation userName={userName} socket={socket} roomID={roomID} roomChat={roomChat}/> : ""}
+                            </>
+                            }
                         </>
-                        :<Login/>
+                        : 
+                        <Login/>
                     }
-                    
-                 
-                
-                    {/* <Conversation /> */}
                 </div>
             </div>
         </>

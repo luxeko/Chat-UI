@@ -1,17 +1,18 @@
 import React, { useRef, useEffect, useState } from "react";
 import "./style.scss";
-const Conversation = ({userName, socket, room}) => {
+const Conversation = ({userName, socket, roomID, roomChat}) => {
     // const typingRef = useRef();
     const inputMessage = useRef();
-    
+    console.log(roomChat);
     const [currentMessage, setCurrentMessage] = useState("")
     const [messageList, setMessageList] = useState([])
+    const [userSend, setUserSend] = useState("")
     const lastMessageRef = useRef();
+    
     const sendMessage = async () => {
-       
         if(currentMessage !== "") {
             const messageData = {
-                room: room,
+                room: roomID,
                 author: userName,
                 message: currentMessage,
                 time: new Date(Date.now()).toLocaleTimeString()
@@ -25,6 +26,7 @@ const Conversation = ({userName, socket, room}) => {
     useEffect(() => {
         socket.on("receive_message", (data) => {
             setMessageList((list) => [...list, data])
+            setUserSend(data.author)
         })
     }, [socket])
     useEffect(() => {
@@ -37,10 +39,10 @@ const Conversation = ({userName, socket, room}) => {
             <div className="chatbox__header">
                 <div className="chatbox__header--user">
                     <div className="chatbox__user--name">
-                        <p></p>
+                        <p># {roomChat.name}</p>
                         <p>
-                            <code>ID: </code>
-                            <code>{}</code>
+                            <code>Room ID: {roomChat.id}</code>
+                            <code>Creater: {roomChat.createrName}</code>
                         </p>
                         
                     </div>
@@ -71,7 +73,7 @@ const Conversation = ({userName, socket, room}) => {
                                     </div>    
                                     <div className="message__meta" >
                                         <code>{messageContent.time}</code>    
-                                        <code>{userName === messageContent.author ? "you" : "other"}</code>    
+                                        <code>{userName === messageContent.author ? userName : userSend}</code>    
                                     </div>    
                                 </div>
                             </div>

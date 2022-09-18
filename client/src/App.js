@@ -7,17 +7,16 @@ import Video from './Components/Video/Video.js'
 import Phone from './Components/Phone/Phone.js'
 import UserSetting from './Components/UserSetting/UserSetting.js'
 export default function App() {
-    const auth_login = true;
     return (
         <div className="App">
             <BrowserRouter>
                 <Routes>
-                    <Route path="/" element={<Room login={auth_login}/>} exact></Route>
-                    <Route path="/Room" element={<Room login={auth_login}/>} exact></Route>
-                    <Route path="UserSetting" element={<UserSetting login={auth_login}/>}></Route>
-                    <Route path="Video" element={<Video login={auth_login}/>}></Route>
-                    <Route path="Calendar" element={<Calendar login={auth_login}/>}></Route>
-                    <Route path="Phone" element={<Phone login={auth_login}/>}></Route>
+                    <Route path="/" element={<Room/>}></Route>
+                    <Route path="/Room" element={<Room/>}></Route>
+                    <Route path="UserSetting" element={<UserSetting/>}></Route>
+                    <Route path="Video" element={<Video/>}></Route>
+                    <Route path="Calendar" element={<Calendar/>}></Route>
+                    <Route path="Phone" element={<Phone/>}></Route>
                 </Routes>
             </BrowserRouter>
         </div>
