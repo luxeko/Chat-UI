@@ -8,7 +8,7 @@ import Modal from 'react-modal';
 import {v4 as uuidV4 } from 'uuid'
 import {connect} from 'react-redux'
 import Moment from 'moment';
-
+import toast from '../Toast/toast'
 const socket = io.connect("http://localhost:5000");
 
 
@@ -25,10 +25,17 @@ const ListContact = ({ login, ...props }) => {
 
 
     const join__room = () => {
+       
         setUserName(data.users)
-        if(userName[0] !== "" && roomID !== "") {
+        if(`${userName}` !== "" && roomID !== "") {
             socket.emit("join_room", roomID)
         }
+        toast({
+            title: "Success",
+            message: `Hello ${userName}, welcome to room ${roomID}`,
+            type: "success",
+            duration: 3000
+        })
         setConversation(true);
         // setRoomChat(init)
         setIsOpen(false);

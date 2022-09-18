@@ -11,8 +11,7 @@ export default function App() {
         <div className="App">
             <BrowserRouter>
                 <Routes>
-                    <Route path="/" element={<Room/>}></Route>
-                    <Route path="/Room" element={<Room/>}></Route>
+                    <Route path="/" element={<Room/>} exact={true}></Route>
                     <Route path="UserSetting" element={<UserSetting/>}></Route>
                     <Route path="Video" element={<Video/>}></Route>
                     <Route path="Calendar" element={<Calendar/>}></Route>

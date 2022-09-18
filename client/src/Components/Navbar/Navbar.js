@@ -4,11 +4,11 @@ import './style.scss';
 import { NavLink } from 'react-router-dom';
 
 const tabs = [
-    {id:1, title: 'Room', class:'fa-solid fa-comment-dots'},
-    {id:2, title: 'Video', class:'fa-solid fa-video'},
-    {id:3, title: 'Phone', class:'fa-solid fa-phone'},
-    {id:4, title: 'Calendar', class:'fa-regular fa-calendar'},
-    {id:5, title: 'UserSetting', class:'fa-solid fa-gear'}
+    {id:1, title: '/', class:'fa-solid fa-comment-dots'},
+    {id:2, title: '/Video', class:'fa-solid fa-video'},
+    {id:3, title: '/Phone', class:'fa-solid fa-phone'},
+    {id:4, title: '/Calendar', class:'fa-regular fa-calendar'},
+    {id:5, title: '/UserSetting', class:'fa-solid fa-gear'}
 ]
 const Navbar = () => {
     const [active, setActive] = useState()
@@ -16,7 +16,6 @@ const Navbar = () => {
         window.location.href = '/';
     }
     function onCheckActive(e) {
-        console.log(e);
         setActive(e)
     }
     return (
@@ -31,8 +30,9 @@ const Navbar = () => {
                         onClick={()=>onCheckActive(tab.id)}
                         key={index}     
                         style={{textDecoration: "none"}}  
-                        to={`/${tab.title}`} 
-                        className={`icon navbar__action--icon ${tab.id === active? "active" :"" }`}
+                        to={tab.title} 
+                        className={`icon navbar__action--icon`}
+                        exact={tab.id === 1 ? true : false}
                     >
                         <i className={tab.class}></i>
                     </NavLink>
